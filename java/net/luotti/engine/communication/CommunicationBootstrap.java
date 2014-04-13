@@ -14,10 +14,10 @@ import net.luotti.engine.communication.sessions.SessionController;
 
 public class CommunicationBootstrap {
 
-    private static int CHANNEL_MEMORY_LIMIT;
-    private static final byte BOSS_POOL_SIZE = 0x01;
-    private static final byte WORKER_POOL_SIZE = 0x04;
+    public static final byte BOSS_POOL_SIZE = 0x01;
+    public static final byte WORKER_POOL_SIZE = 0x04;
 
+    private static int CHANNEL_MEMORY_LIMIT;
     private static final String IF_ANYCAST = "0.0.0.0";
 
     static {

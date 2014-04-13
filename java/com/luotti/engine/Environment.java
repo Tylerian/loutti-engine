@@ -6,6 +6,10 @@ import com.luotti.engine.settings.PropertiesBox;
 import com.luotti.engine.storage.DatabaseController;
 import com.luotti.engine.threading.ThreadController;
 import com.luotti.engine.utilities.timestamp.TimeHelper;
+import com.luotti.engine.utilities.runtime.GarbageController;
+import com.luotti.engine.utilities.runtime.RuntimeController;
+
+import net.luotti.engine.communication.CommunicationBootstrap;
 import net.luotti.engine.communication.CommunicationController;
 
 public class Environment {
@@ -13,6 +17,8 @@ public class Environment {
     private static Logger mLogger;
     private static PropertiesBox mPropertiesBox;
     private static ThreadController mThreadController;
+    private static GarbageController mGarbageController;
+    private static RuntimeController mRuntimeController;
     private static DatabaseController mDatabaseController;
     private static CommunicationController mCommunicationController;
 
@@ -59,6 +65,15 @@ public class Environment {
     public static ThreadController getThreadController()
     {
         return Environment.mThreadController;
+    }
+
+    public static GarbageController getGarbageController()
+    {
+        return Environment.mGarbageController;
+    }
+    public static RuntimeController getRuntimeController()
+    {
+        return Environment.mRuntimeController;
     }
 
     public static DatabaseController getDatabaseController() { return Environment.mDatabaseController; }
@@ -123,7 +138,13 @@ public class Environment {
 
                 Environment.mCommunicationController = new CommunicationController();
                 if (Environment.mCommunicationController.bootstrap() == false) { return false; }
-                else { Environment.printOutBootInfo("CommunicationFactory has been successfully initialized with: " + 1 + " i/o boss and " + 4 + " i/o workers."); }
+                else { Environment.printOutBootInfo("CommunicationController has been successfully initialized with: " + CommunicationBootstrap.BOSS_POOL_SIZE + " i/o boss and " + CommunicationBootstrap.WORKER_POOL_SIZE + " i/o workers."); }
+
+                // All is initialized... so start runtime monitors!
+                Environment.mGarbageController = new GarbageController();
+                Environment.mRuntimeController = new RuntimeController();
+
+                Environment.printOutBootInfo("MMOEngine has been successfully initialized in: " + (Environment.traceNanoTime() - Environment.START_UP_TIME) / 1000000d + " seconds!"); System.out.println();
 
                 // All right
                 return true;
