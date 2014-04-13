@@ -213,14 +213,14 @@ public class RuntimeController implements Runnable {
                         "</current>"						+
                     "</ram>"								+
                     "<game>"								+
-                        "<Spaces>"							+
+                        "<spaces>"							+
                             "<peak>"						+
                                 this.iSpacePeak				+
                             "</peak>"						+
                             "<current>"						+
                                 this.iConcurrentSpaces		+
                             "</current>"					+
-                        "</Spaces>"							+
+                        "</spaces>"							+
                         "<players>"							+
                             "<peak>"						+
                                 this.iPlayerPeak			+
