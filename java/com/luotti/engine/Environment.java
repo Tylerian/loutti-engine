@@ -149,7 +149,6 @@ public class Environment {
                 // All right
                 return true;
             }
-
         }
 
         catch (Exception ex)

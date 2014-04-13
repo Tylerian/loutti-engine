@@ -5,10 +5,14 @@ import com.luotti.engine.settings.Properties;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
+import io.netty.util.ResourceLeakDetector;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.util.internal.PlatformDependent;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import net.luotti.engine.communication.sessions.SessionController;
 
@@ -24,17 +28,32 @@ public class CommunicationBootstrap {
         CHANNEL_MEMORY_LIMIT = CommunicationController.CHANNEL_MEMORY_LIMIT;
     }
 
-
     public static boolean bootstrap()
     {
         try
         {
-            CommunicationController.BOOTSTRAP = new ServerBootstrap().group(
-                new EpollEventLoopGroup(CommunicationBootstrap.BOSS_POOL_SIZE),
-                new EpollEventLoopGroup(CommunicationBootstrap.WORKER_POOL_SIZE)
-            );
+            // TODO: Remove when no leaks are detected!
+            ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
 
-            CommunicationController.BOOTSTRAP.channel(EpollServerSocketChannel.class);
+            if (PlatformDependent.isWindows())
+            {
+                CommunicationController.BOOTSTRAP = new ServerBootstrap().group(
+                    new NioEventLoopGroup(CommunicationBootstrap.BOSS_POOL_SIZE),
+                    new NioEventLoopGroup(CommunicationBootstrap.WORKER_POOL_SIZE)
+                );
+
+                CommunicationController.BOOTSTRAP.channel(NioServerSocketChannel.class);
+            }
+
+            else
+            {
+                CommunicationController.BOOTSTRAP = new ServerBootstrap().group(
+                    new EpollEventLoopGroup(CommunicationBootstrap.BOSS_POOL_SIZE),
+                    new EpollEventLoopGroup(CommunicationBootstrap.WORKER_POOL_SIZE)
+                );
+
+                CommunicationController.BOOTSTRAP.channel(EpollServerSocketChannel.class);
+            }
 
             CommunicationController.BOOTSTRAP.childHandler(Environment.getCommunication());
 
@@ -45,8 +64,8 @@ public class CommunicationBootstrap {
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.TCP_NODELAY, true);
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.SO_KEEPALIVE, true);
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
-            CommunicationController.BOOTSTRAP.childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, CHANNEL_MEMORY_LIMIT/4);
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, CHANNEL_MEMORY_LIMIT);
+            CommunicationController.BOOTSTRAP.childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK , CHANNEL_MEMORY_LIMIT / 4);
 
             SessionController.CHANNELS.bind((Channel) CommunicationController.BOOTSTRAP.bind(IF_ANYCAST, Properties.NIO_GAME_PORT).sync());
         }

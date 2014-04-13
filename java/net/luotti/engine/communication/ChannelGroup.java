@@ -72,7 +72,7 @@ public class ChannelGroup {
         {
             for (Channel channel : this.lChannels)
             {
-                channel.write(message);
+                channel.write(message, channel.voidPromise());
             }
         }
     }
@@ -103,7 +103,7 @@ public class ChannelGroup {
         {
             for (Channel channel : this.lChannels)
             {
-                channel.writeAndFlush(message);
+                channel.writeAndFlush(message, channel.voidPromise());
             }
         }
     }

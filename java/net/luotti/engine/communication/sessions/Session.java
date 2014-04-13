@@ -80,14 +80,12 @@ public class Session {
     public void read(MessageRequest request)
     {
         this.iLastReadTime = Environment.traceMilliTime();
-        Environment.getLogger().printOut(LogLevel.DEBUG, "[" + this.iID + "|RCV]" +
-        "[#" + request.getOPCode() + "]: " + BinaryDecoder.parse(request.toString()));
+        Environment.getLogger().printOut(LogLevel.DEBUG, "[" + this.iID + "|RCV][#" + request.getOPCode() + "]: " + BinaryDecoder.parse(request.toString()));
     }
 
     public void write(MessageResponse response)
     {
-        this.mChannel.writeAndFlush(response.getPayload());
-        Environment.getLogger().printOut(LogLevel.DEBUG, "[" + this.iID + "|SND]" +
-        "[#" + response.getOPCode() + "]: " + BinaryDecoder.parse(response.toString()));
+        this.mChannel.writeAndFlush(response.getPayload(), this.mChannel.voidPromise());
+        Environment.getLogger().printOut(LogLevel.DEBUG, "[" + this.iID + "|SND][#" + response.getOPCode() + "]: " + BinaryDecoder.parse(response.toString()));
     }
 }

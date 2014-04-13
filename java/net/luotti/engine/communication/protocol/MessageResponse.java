@@ -37,14 +37,14 @@ public class MessageResponse extends IMessage {
 
     public ByteBuf getPayload()
     {
-        this.mBuffer.setInt
-        (0, this.mBuffer.writerIndex() - 4);
-        return this.mBuffer;
+        this.mBuffer.setInt(0,
+            (this.mBuffer.writerIndex() - 4)
+        ); return this.mBuffer;
     }
 
     public MessageResponse(short OPCode)
     {
-        super(OPCode, PooledByteBufAllocator.DEFAULT.buffer(
+        super(OPCode, PooledByteBufAllocator.DEFAULT.directBuffer(
             MessageResponse.PAYLOAD_SIZE_THRESHOLD
         ));
 

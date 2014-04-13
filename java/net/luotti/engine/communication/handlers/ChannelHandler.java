@@ -29,7 +29,7 @@ public class ChannelHandler extends ChannelInboundHandlerAdapter {
         SessionController.CHANNELS.bind(context.channel());
 
         context.attr(ChannelHandler.SESSION).set(
-                Environment.getCommunication().getSessions().addConnection(context.channel())
+            Environment.getCommunication().getSessions().addConnection(context.channel())
         );
     }
 

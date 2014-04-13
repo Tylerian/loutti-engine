@@ -13,6 +13,8 @@ public class MessageRequest extends IMessage {
     @Override
     public void destruct()
     {
+        this.mBuffer.release();
+
         this.iOPCode = 0;
         this.mBuffer = null;
         this.mSession = null;
@@ -43,14 +45,12 @@ public class MessageRequest extends IMessage {
 
     public boolean readBoolean()
     {
-        return (this.
-                mBuffer.readByte() == 1);
+        return (this.mBuffer.readByte() == 1);
     }
 
     public boolean isReadable( )
     {
-        return this.mBuffer
-                .readableBytes() > 0;
+        return this.mBuffer.isReadable();
     }
 
     public Session getSession( )

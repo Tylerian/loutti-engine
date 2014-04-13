@@ -2,13 +2,15 @@ package com.luotti.engine.utilities.math;
 
 import java.util.Random;
 
+import com.luotti.engine.Environment;
+
 public class Randomizer {
 
     private static Random mRandom;
 
     static {
         Randomizer.mRandom =
-        new Random(System.nanoTime());
+        new Random(Environment.traceNanoTime());
     }
 
     public static int nextInt()

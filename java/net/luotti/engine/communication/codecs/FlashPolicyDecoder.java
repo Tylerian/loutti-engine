@@ -21,6 +21,11 @@ public class FlashPolicyDecoder extends MessageToMessageDecoder<ByteBuf> {
     );
 
     @Override
+    public void channelReadComplete(ChannelHandlerContext context) {
+        context.flush();
+    }
+
+    @Override
     protected void decode(ChannelHandlerContext context, ByteBuf buffer, List<Object> objects) throws Exception
     {
         /***************************************************************************************
@@ -30,7 +35,7 @@ public class FlashPolicyDecoder extends MessageToMessageDecoder<ByteBuf> {
 
         if (buffer.readByte() == 0x3C)
         {
-            context.writeAndFlush( // send policy file
+            context.write( // answer back policy file
                     FlashPolicyDecoder.POLICY_RESPONSE
             ).addListener(ChannelFutureListener.CLOSE);
 
