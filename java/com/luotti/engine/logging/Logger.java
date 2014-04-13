@@ -29,6 +29,22 @@ public class Logger implements IDisposable {
         catch (IOException ex) { };
     }
 
+    public void enable()
+    {
+        this.bTrackTrace = Properties.TRACK_TRACE;
+        this.bTrackDebug = Properties.TRACK_DEBUG;
+        this.bTrackWarning = Properties.TRACK_WARNING;
+        this.bTrackCritical = Properties.TRACK_CRITICAL;
+    }
+
+    public void disable()
+    {
+        this.bTrackTrace = false;
+        this.bTrackDebug = false;
+        this.bTrackWarning = false;
+        this.bTrackCritical = false;
+    }
+
     @Override
     public void destruct()
     {
@@ -43,10 +59,12 @@ public class Logger implements IDisposable {
 
     public boolean bootstrap()
     {
-        this.bTrackTrace = Properties.TRACK_TRACE;
-        this.bTrackDebug = Properties.TRACK_DEBUG;
-        this.bTrackWarning = Properties.TRACK_WARNING;
-        this.bTrackCritical = Properties.TRACK_CRITICAL; return true;
+        return(
+            !this.bTrackDebug   &
+            !this.bTrackTrace   &
+            !this.bTrackWarning &
+            !this.bTrackCritical
+        );
     }
 
     private void printOutTrace(String event)

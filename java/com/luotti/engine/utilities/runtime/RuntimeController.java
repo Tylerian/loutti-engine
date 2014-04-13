@@ -19,14 +19,14 @@ public class RuntimeController implements Runnable {
     private volatile int iRAMHeap;
     private volatile int iCPUUsage;
     private volatile int iRAMUsage;
-    private volatile int iFlatPeak;
+    private volatile int iSpacePeak;
     private volatile int iPlayerPeak;
     private volatile int iThreadPeak;
     private volatile int iThreadUsage;
     private volatile int iDaemonThreads;
     private volatile int iIncomingTraffic;
     private volatile int iOutgoingTraffic;
-    private volatile int iConcurrentFlats;
+    private volatile int iConcurrentSpaces;
     private volatile int iConcurrentPlayers;
     private volatile int iIncomingTrafficPeak;
     private volatile int iOutgoingTrafficPeak;
@@ -88,14 +88,14 @@ public class RuntimeController implements Runnable {
         this.iThreadUsage = ManagementFactory.getThreadMXBean().getThreadCount() - this.iDaemonThreads;
     }
 
-    public void setConcurrentFlats(int amount)
+    public void setConcurrentSpaces(int amount)
     {
-        if (this.iFlatPeak < amount)
+        if (this.iSpacePeak < amount)
         {
-            this.iFlatPeak = amount;
+            this.iSpacePeak = amount;
         }
 
-        this.iConcurrentFlats = amount;
+        this.iConcurrentSpaces = amount;
     }
 
     private void setConcurrentPlayers(int amount)
@@ -137,9 +137,9 @@ public class RuntimeController implements Runnable {
             {
                 Thread.sleep(1000L);
                 this.setCPUUsage(); this.setRAMUsage(); this.setThreadUsage();
-                this.setConcurrentPlayers(Environment.getCommunication().getSessions().getPlayerCount());
-                this.setIncomingTraffic(Environment.getCommunication().getTrafficHandler().getIncomingTraffic());
-                this.setOutgoingTraffic(Environment.getCommunication().getTrafficHandler().getOutgoingTraffic());
+                this.setConcurrentPlayers(Environment.getCommunication().getSessions().getPlayerAmount());
+                this.setIncomingTraffic(Environment.getCommunication().getNetworkProfiler().getIncomingTraffic());
+                this.setOutgoingTraffic(Environment.getCommunication().getNetworkProfiler().getOutgoingTraffic());
             }
 
             catch (Exception ex)
@@ -157,7 +157,7 @@ public class RuntimeController implements Runnable {
     public void start()
     {
         this.tMonitor.start();
-        Environment.getCommunication().initTrafficMonitor();
+        Environment.getCommunication().initializeNetworkProfiler();
     }
 
     public String getStats()
@@ -171,7 +171,7 @@ public class RuntimeController implements Runnable {
         stats += "RAM Usage: " + (this.iRAMUsage >> 10) + " MB\n";
         stats += "NET I/O Ratio: " + (this.iIncomingTraffic >> 10) + " KB/s\n";
         stats += "NET O/I Ratio: " + (this.iOutgoingTraffic >> 10) + " KB/s\n";
-        stats += "DB CONN. Usage: " + Environment.getDatabase().getConnectionPool().getActiveConnections() + " connection(s)\n\n";
+        stats += "DB CONN. Usage: " + Environment.getDatabaseController().getActiveConnections() + " connection(s)\n\n";
 
         // OS. INFORMATION
         stats += "Operating System: " + System.getProperty("os.name") + "\n";
@@ -181,7 +181,7 @@ public class RuntimeController implements Runnable {
         stats += "Server uptime is " + this.getUptime() + "\n";
         stats += "Currently there are " + this.iConcurrentPlayers + "/";
         stats += Properties.MAX_PLAYER_AMOUNT + " connections in use and ";
-        stats += this.iConcurrentFlats + "/" + Properties.MAX_SPACES_AMOUNT + " flats in use.";
+        stats += this.iConcurrentSpaces + "/" + Properties.MAX_SPACES_AMOUNT + " spaces in use.";
 
         return stats;
     }
@@ -213,14 +213,14 @@ public class RuntimeController implements Runnable {
                         "</current>"						+
                     "</ram>"								+
                     "<game>"								+
-                        "<flats>"							+
+                        "<Spaces>"							+
                             "<peak>"						+
-                                this.iFlatPeak				+
+                                this.iSpacePeak				+
                             "</peak>"						+
                             "<current>"						+
-                                this.iConcurrentFlats		+
+                                this.iConcurrentSpaces		+
                             "</current>"					+
-                        "</flats>"							+
+                        "</Spaces>"							+
                         "<players>"							+
                             "<peak>"						+
                                 this.iPlayerPeak			+

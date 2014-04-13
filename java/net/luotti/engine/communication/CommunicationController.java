@@ -34,6 +34,11 @@ public class CommunicationController extends ChannelInitializer<SocketChannel> i
         return this.mSessionController;
     }
 
+    public TrackingHandler getNetworkProfiler()
+    {
+        return this.mTrackingHandler;
+    }
+
     public IEventDispatcher getEventDispatcher()
     {
         return this.mEventDispatcher;
@@ -65,18 +70,20 @@ public class CommunicationController extends ChannelInitializer<SocketChannel> i
         return true;
     }
 
-    public boolean initializeNetworking() {
+    public boolean initializeNetworking()
+    {
         return CommunicationBootstrap.bootstrap();
     }
 
-    public boolean initializeTrafficProfiler() {
+    public boolean initializeNetworkProfiler()
+    {
         this.mTrackingHandler.trafficCounter().start(); return true;
     }
 
     @Override
     protected void initChannel(SocketChannel channel) throws Exception
     {
-        channel.pipeline().addLast("tracking", this.mTrackingHandler);
+        channel.pipeline().addLast("net_profiler", this.mTrackingHandler);
         channel.pipeline().addLast("policy_decoder", this.mPolicyDecoder);
         channel.pipeline().addLast("request_decoder", this.mRequestDecoder);
         channel.pipeline().addLast("channel_handler", this.mChannelHandler);

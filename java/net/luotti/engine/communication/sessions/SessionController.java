@@ -162,7 +162,7 @@ public class SessionController implements Runnable, IDisposable {
 
     // endregion
 
-    // region #Constructor
+    // region #Constructors
     public SessionController()
     {
         this.lJunk = new ArrayList<>();

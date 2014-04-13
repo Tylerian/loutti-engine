@@ -19,6 +19,8 @@ public class Properties {
     // Shorts
     public static final short NIO_GAME_PORT = Environment.getProperties().getShort("nio.game.port", (short) 10110);
     public static final short NIO_RCON_PORT = Environment.getProperties().getShort("nio.rcon.port", (short) 10111);
+    public static final short MAX_SPACES_AMOUNT = Environment.getProperties().getShort("limit.spaces.max", (short) 50);
+    public static final short MAX_PLAYER_AMOUNT = Environment.getProperties().getShort("limit.players.max", (short) 100);
     public static final short DATABASE_SERVER_PORT = Environment.getProperties().getShort("sql.server.port", (short) 3306);
 
     // Booleans
@@ -34,7 +36,8 @@ public class Properties {
     public static final int EXECUTOR_POOL_SIZE = Environment.getProperties().getInt("executor.pool.size", 1);
     public static final int EXECUTOR_QUEUE_SIZE = Environment.getProperties().getInt("executor.queue.size", 50);
     public static final int SCHEDULER_POOL_SIZE = Environment.getProperties().getInt("scheduler.pool.size",  1);
-    public static final int SCHEDULER_QUEUE_SIZE = Environment.getProperties().getInt("scheduler.queue.size",50);
+    public static final int SCHEDULER_QUEUE_SIZE = Environment.getProperties().getInt("scheduler.queue.size", 50);
+
     public static final int DISPATCHER_QUEUE_LIMIT = Environment.getProperties().getInt("dispatcher.queue.limit", 5000);
     public static final int DISPATCHER_EXECUTOR_SIZE = Environment.getProperties().getInt("dispatcher.executor.size", 2);
 
@@ -45,6 +48,8 @@ public class Properties {
 
 
     // Strings
+    public static final String NIO_RCON_WHITELIST = Environment.getProperties().get("nio.rcon.whitelist", "127.0.0.1");
+
     public static final String DATABASE_NAME = Environment.getProperties().get("sql.database.name", "{non-defined}");
     public static final String DATABASE_SERVER_NAME = Environment.getProperties().get("sql.server.name", "{non-defined}");
     public static final String DATABASE_CREDENTIALS_NAME = Environment.getProperties().get("sql.credentials.name", "{non-defined}");

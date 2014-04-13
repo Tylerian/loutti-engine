@@ -32,6 +32,7 @@ public class DatabaseController implements IDisposable {
     private static final String CONNECTION_DATA_DRIVER = "com.mysql.jdbc.Driver".intern();
     private static final String CONNECTION_DATA_SOURCE = "com.mysql.jdbc.jdbc2.optional.MysqlDataSource".intern();
 
+    // region #Constructors
     public DatabaseController()
     {
         this.mConfiguration = new HikariConfig();
@@ -55,7 +56,9 @@ public class DatabaseController implements IDisposable {
         this.mConfiguration.addDataSourceProperty(KEY_CREDENTIALS_NAME, Properties.DATABASE_CREDENTIALS_NAME);
         this.mConfiguration.addDataSourceProperty(KEY_CREDENTIALS_PASSWORD, Properties.DATABASE_CREDENTIALS_PASSWORD);
     }
+    // endregion
 
+    // region #Methods
     @Override
     public void destruct()
     {
@@ -96,11 +99,6 @@ public class DatabaseController implements IDisposable {
         return result;
     }
 
-    public Connection getConnection() throws SQLException
-    {
-        return this.mDataSource.getConnection();
-    }
-
     public void releaseConnection(Connection connection)
     {
         try
@@ -113,4 +111,19 @@ public class DatabaseController implements IDisposable {
             Environment.getLogger().printOut(LogLevel.CRITICAL, "SQLConnection.dispose() has thrown an exception.", ex);
         }
     }
+    // endregion
+
+    // region #Accessors
+
+    public int getActiveConnections()
+    {
+        // Hikari is keeping alive pool size!
+        return Properties.DATABASE_POOL_SIZE;
+    }
+
+    public Connection getConnection() throws SQLException
+    {
+        return this.mDataSource.getConnection();
+    }
+    // endregion
 }
