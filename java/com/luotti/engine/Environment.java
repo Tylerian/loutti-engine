@@ -1,5 +1,8 @@
 package com.luotti.engine;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import com.luotti.engine.logging.Logger;
 import com.luotti.engine.settings.Properties;
 import com.luotti.engine.settings.PropertiesBox;
@@ -11,9 +14,6 @@ import com.luotti.engine.utilities.runtime.RuntimeController;
 
 import net.luotti.engine.communication.CommunicationBootstrap;
 import net.luotti.engine.communication.CommunicationController;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 public class Environment {
 
@@ -82,7 +82,7 @@ public class Environment {
         System.out.println("######################################");
         System.out.println("##      ENGINE BUILD: 1.0-dev       ##");
         System.out.println("######################################");
-        System.out.println("##      JDK VERSION: " + System.getProperty("java.version") + "      ##");
+        System.out.println("##      JDK VERSION: " + System.getProperty("java.version") + "       ##");
         System.out.println("######################################");
         System.out.println();
     }
