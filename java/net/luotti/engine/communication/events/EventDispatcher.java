@@ -31,7 +31,7 @@ public class EventDispatcher implements IEventDispatcher, Runnable {
     public void run()
     {
         IEventListener listener = null;
-        Thread.currentThread().setName(sIdentifier + "-THREAD-" + THREAD_ID.incrementAndGet());
+        Thread.currentThread().setName(sIdentifier + "-THREAD-" + EventDispatcher.THREAD_ID.getAndIncrement());
 
         try
         {
@@ -40,7 +40,7 @@ public class EventDispatcher implements IEventDispatcher, Runnable {
 
         catch (Exception ex)
         {
-            Environment.printOutBootError("IEventDispatcher has thrown an exception.");
+            Environment.printOutBootError("IEventDispatcher has thrown an exception.", ex);
         }
 
         while (this.bIsActive)
@@ -76,7 +76,7 @@ public class EventDispatcher implements IEventDispatcher, Runnable {
     {
         this.bIsActive = true;
         this.iQueueLimit = Properties.DISPATCHER_QUEUE_LIMIT;
-        this.sIdentifier = "DISPATCHER-" + DISPATCHER_ID.incrementAndGet();
+        this.sIdentifier = "DISPATCHER-" + DISPATCHER_ID.getAndIncrement();
         this.mExecutor = new Executor().construct(Properties.DISPATCHER_EXECUTOR_SIZE);
         this.mQueue = new ArrayBlockingQueue(Properties.DISPATCHER_QUEUE_LIMIT, false);
 

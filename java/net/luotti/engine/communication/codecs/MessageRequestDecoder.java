@@ -9,7 +9,7 @@ import net.luotti.engine.communication.protocol.MessageRequest;
 
 import java.util.List;
 
-@ChannelHandler.Sharable
+// @ChannelHandler.Sharable
 public class MessageRequestDecoder extends ByteToMessageDecoder
 {
 

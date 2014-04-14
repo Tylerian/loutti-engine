@@ -22,7 +22,6 @@ public class CommunicationController extends ChannelInitializer<SocketChannel> i
     private IEventDispatcher mEventDispatcher;
     private FlashPolicyDecoder mPolicyDecoder;
     private SessionController mSessionController;
-    private MessageRequestDecoder mRequestDecoder;
 
     public static ServerBootstrap BOOTSTRAP;
     public static final int CHANNEL_MEMORY_LIMIT = (4096 * 2);
@@ -65,7 +64,6 @@ public class CommunicationController extends ChannelInitializer<SocketChannel> i
     {
         this.mChannelHandler = new ChannelHandler();
         this.mPolicyDecoder  = new FlashPolicyDecoder();
-        this.mRequestDecoder = new MessageRequestDecoder();
         this.mTrackingHandler = new TrackingHandler(GlobalEventExecutor.INSTANCE);
         return true;
     }
@@ -85,8 +83,8 @@ public class CommunicationController extends ChannelInitializer<SocketChannel> i
     {
         channel.pipeline().addLast("net_profiler", this.mTrackingHandler);
         channel.pipeline().addLast("policy_decoder", this.mPolicyDecoder);
-        channel.pipeline().addLast("request_decoder", this.mRequestDecoder);
-        channel.pipeline().addLast("channel_handler", this.mChannelHandler);
+        channel.pipeline().addLast("request_decoder", new MessageRequestDecoder());
+        channel.pipeline().addLast("custom_channel_handler", this.mChannelHandler);
     }
     // endregion
 
