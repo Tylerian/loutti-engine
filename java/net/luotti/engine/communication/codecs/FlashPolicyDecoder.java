@@ -40,7 +40,7 @@ public class FlashPolicyDecoder extends MessageToMessageDecoder<ByteBuf> {
             ).addListener(ChannelFutureListener.CLOSE);
 
             // Discard policy request bytes
-            buffer.skipBytes(buffer.readableBytes());
+            buffer.skipBytes( buffer.readableBytes() );
         }
 
         else
@@ -48,7 +48,7 @@ public class FlashPolicyDecoder extends MessageToMessageDecoder<ByteBuf> {
             buffer.resetReaderIndex();
             context.pipeline().remove(this);
 
-                output.add(buffer.retain());
+            output . add( buffer.retain() );
         }
     }
 }
