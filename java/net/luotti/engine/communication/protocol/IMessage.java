@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import io.netty.buffer.ByteBuf;
 
 public class IMessage {
+
     protected short iOPCode;
     protected ByteBuf mBuffer;
 

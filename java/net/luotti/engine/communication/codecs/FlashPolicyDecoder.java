@@ -1,5 +1,6 @@
 package net.luotti.engine.communication.codecs;
 
+import java.util.Arrays;
 import java.util.List;
 import java.nio.charset.Charset;
 
@@ -39,15 +40,15 @@ public class FlashPolicyDecoder extends MessageToMessageDecoder<ByteBuf> {
             ).addListener(ChannelFutureListener.CLOSE);
 
             // Discard policy request bytes
-            buffer.skipBytes( buffer.readableBytes() );
+            buffer.skipBytes(buffer.readableBytes());
         }
 
         else
         {
             buffer.resetReaderIndex();
-            context.channel().pipeline().remove(this);
+            context.pipeline().remove(this);
 
-            output.add(buffer.readBytes(buffer.readableBytes()));
+                output.add(buffer.retain());
         }
     }
 }

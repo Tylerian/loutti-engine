@@ -18,10 +18,10 @@ public class BinaryDecoder {
         for (int i = 0, k = 0; i < input.length(); i++)
         {
             k = input.charAt(i);
-            if (k >= MIN_NUMBER_VAL && k <= MAX_NUMBER_VAL) builder.append(k);
-            else if (k >= MIN_CHAR_LOWERCASE_VAL && k <= MAX_CHAR_LOWERCASE_VAL) builder.append(k);
-            else if (k >= MIN_CHAR_UPPERCASE_VAL && k <= MAX_CHAR_UPPERCASE_VAL) builder.append(k);
-            else builder.append(String.format("[%s]", (int) k));
+            if (k >= MIN_NUMBER_VAL && k <= MAX_NUMBER_VAL) builder.append((char) k);
+            else if (k >= MIN_CHAR_LOWERCASE_VAL && k <= MAX_CHAR_LOWERCASE_VAL) builder.append((char) k);
+            else if (k >= MIN_CHAR_UPPERCASE_VAL && k <= MAX_CHAR_UPPERCASE_VAL) builder.append((char) k);
+            else builder.append(String.format("[%s]", k));
         }
 
         return builder.toString();

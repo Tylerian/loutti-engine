@@ -81,8 +81,8 @@ public class CommunicationController extends ChannelInitializer<SocketChannel> i
     @Override
     protected void initChannel(SocketChannel channel) throws Exception
     {
-        channel.pipeline().addLast("net_profiler", this.mTrackingHandler);
-        channel.pipeline().addLast("policy_decoder",  new FlashPolicyDecoder());
+        // channel.pipeline().addLast("net_profiler", this.mTrackingHandler);
+        channel.pipeline().addLast("policy_decoder", this.mPolicyDecoder);
         channel.pipeline().addLast("request_decoder", new MessageRequestDecoder());
         channel.pipeline().addLast("custom_channel_handler", this.mChannelHandler);
     }
