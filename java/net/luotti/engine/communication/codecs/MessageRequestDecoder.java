@@ -12,12 +12,11 @@ import java.util.List;
 // @ChannelHandler.Sharable
 public class MessageRequestDecoder extends ByteToMessageDecoder
 {
-
     // (sizeof(Integer) + sizeof(Short)) - 1 = 0x05
     private static final byte REQUEST_MIN_SIZE = 0x05;
 
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf buffer, List<Object> objects) throws Exception
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf buffer, List<Object> output) throws Exception
     {
         // Are there enough bytes to process?
         if (buffer.readableBytes() > REQUEST_MIN_SIZE)
@@ -35,7 +34,7 @@ public class MessageRequestDecoder extends ByteToMessageDecoder
             }
 
             // Add a new POJO with the specified length
-            objects.add(new MessageRequest(buffer.readBytes(length)));
+            output.add(new MessageRequest(buffer.readBytes(length)));
         }
     }
 }

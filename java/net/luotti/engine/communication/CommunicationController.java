@@ -24,8 +24,8 @@ public class CommunicationController extends ChannelInitializer<SocketChannel> i
     private SessionController mSessionController;
 
     public static ServerBootstrap BOOTSTRAP;
-    public static final int CHANNEL_MEMORY_LIMIT = (4096 * 2);
-    public static final long GLOBAL_MEMORY_LIMIT = (Runtime.getRuntime().maxMemory() / 3l);
+    public static final int CHANNEL_MEMORY_BASE  = 0x400;
+    public static final int CHANNEL_MEMORY_LIMIT = (0x1000 * 0x02);
 
     // region #Accesors
     public SessionController getSessions()
@@ -82,7 +82,7 @@ public class CommunicationController extends ChannelInitializer<SocketChannel> i
     protected void initChannel(SocketChannel channel) throws Exception
     {
         channel.pipeline().addLast("net_profiler", this.mTrackingHandler);
-        channel.pipeline().addLast("policy_decoder", this.mPolicyDecoder);
+        channel.pipeline().addLast("policy_decoder",  new FlashPolicyDecoder());
         channel.pipeline().addLast("request_decoder", new MessageRequestDecoder());
         channel.pipeline().addLast("custom_channel_handler", this.mChannelHandler);
     }

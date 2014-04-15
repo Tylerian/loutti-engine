@@ -21,10 +21,12 @@ public class CommunicationBootstrap {
     public static final byte BOSS_POOL_SIZE = 0x01;
     public static final byte WORKER_POOL_SIZE = 0x04;
 
+    private static int CHANNEL_MEMORY_BASE;
     private static int CHANNEL_MEMORY_LIMIT;
     private static final String IF_ANYCAST = "0.0.0.0";
 
     static {
+        CHANNEL_MEMORY_BASE = CommunicationController.CHANNEL_MEMORY_BASE;
         CHANNEL_MEMORY_LIMIT = CommunicationController.CHANNEL_MEMORY_LIMIT;
     }
 
@@ -64,8 +66,8 @@ public class CommunicationBootstrap {
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.TCP_NODELAY, true);
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.SO_KEEPALIVE, true);
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+            CommunicationController.BOOTSTRAP.childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK , CHANNEL_MEMORY_BASE);
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, CHANNEL_MEMORY_LIMIT);
-            CommunicationController.BOOTSTRAP.childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK , CHANNEL_MEMORY_LIMIT / 4);
 
             SessionController.CHANNELS.bind((Channel) CommunicationController.BOOTSTRAP.bind(IF_ANYCAST, Properties.NIO_GAME_PORT).sync());
         }
