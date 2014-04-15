@@ -10,6 +10,7 @@ public class MessageRequest extends IMessage {
 
     private Session mSession;
 
+    // region #Methods
     @Override
     public void destruct()
     {
@@ -38,19 +39,21 @@ public class MessageRequest extends IMessage {
         return this.mBuffer.readShort();
     }
 
-    public short getOPCode()
-    {
-        return this.iOPCode;
-    }
-
     public boolean readBoolean()
     {
         return (this.mBuffer.readByte() == 1);
     }
 
-    public boolean isReadable( )
+    public boolean  isReadable()
     {
         return this.mBuffer.isReadable();
+    }
+    // endregion
+
+    // region #Accessors
+    public short getOPCode()
+    {
+        return this.iOPCode;
     }
 
     public Session getSession( )
@@ -62,11 +65,12 @@ public class MessageRequest extends IMessage {
     {
         this.mSession = session;
     }
+    // endregion
 
+    // region #Constructors
     public MessageRequest(ByteBuf buffer)
     {
-        super(buffer.readShort(),
-        buffer.readableBytes() > 0 ?
-        buffer : Unpooled.EMPTY_BUFFER);
+        super(buffer.readShort(), buffer);
     }
+    // endregion
 }
