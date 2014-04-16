@@ -1,25 +1,32 @@
 package com.luotti.engine.utilities.math;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.luotti.engine.Environment;
 
 public class Randomizer {
 
-    private static Random mRandom;
+    public static Random RANDOM;
 
     static {
-        Randomizer.mRandom =
-        new Random(Environment.traceNanoTime());
+        Randomizer.RANDOM = new Random(
+            Environment.traceNanoTime() ^ Environment.traceMilliTime()
+        );
     }
 
     public static int nextInt()
     {
-        return Randomizer.mRandom.nextInt();
+        return ThreadLocalRandom.current().nextInt();
+    }
+
+    public static double nextDouble()
+    {
+        return ThreadLocalRandom.current().nextDouble();
     }
 
     public static int nextInt(int minimum, int maximum)
     {
-        return Math.abs(minimum + (Randomizer.mRandom.nextInt()  % ( (maximum - minimum) + 1) ) );
+        return Math.abs(minimum + (ThreadLocalRandom.current().nextInt()  % ( (maximum - minimum) + 1) ) );
     }
 }

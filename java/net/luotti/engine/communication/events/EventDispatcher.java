@@ -49,7 +49,7 @@ public class EventDispatcher implements IEventDispatcher, Runnable {
             {
                 long stop, start;
                 MessageRequest request = (MessageRequest) this.mQueue.take();
-                start = Environment.traceNanoTime(); listener.invoke(request); stop = Environment.traceNanoTime();
+                start = Environment.traceNanoTime(); listener.invoke(request); stop = Environment.traceNanoTime(); request.destruct();
                 Environment.getLogger().printOut(LogLevel.DEBUG, "Took " + ((stop - start)  /  1000000.0D)+ "ms to process the request.");
             }
 

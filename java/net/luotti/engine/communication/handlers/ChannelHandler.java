@@ -15,10 +15,12 @@ import net.luotti.engine.communication.sessions.SessionController;
 @io.netty.channel.ChannelHandler.Sharable
 public class ChannelHandler extends ChannelInboundHandlerAdapter {
 
-    private static AttributeKey<Session> SESSION;
+    public static AttributeKey<String>  KEY_MACHINE;
+    public static AttributeKey<Session> KEY_SESSION;
 
     static {
-        ChannelHandler.SESSION = AttributeKey.valueOf("channel.session");
+        ChannelHandler.KEY_SESSION = AttributeKey.valueOf("channel.session");
+        ChannelHandler.KEY_MACHINE = AttributeKey.valueOf("channel.machine");
     }
 
     @Override
@@ -28,7 +30,7 @@ public class ChannelHandler extends ChannelInboundHandlerAdapter {
 
         SessionController.CHANNELS.bind(context.channel());
 
-        context.attr(ChannelHandler.SESSION).set(
+        context.attr(ChannelHandler.KEY_SESSION).set(
             Environment.getCommunication().getSessions().addConnection(context.channel())
         );
     }
@@ -52,7 +54,7 @@ public class ChannelHandler extends ChannelInboundHandlerAdapter {
         if (message instanceof MessageRequest)
         {
             MessageRequest request = (MessageRequest) message;
-            Session session = context.attr(SESSION).get(); session.read(request);
+            Session session = context.attr(KEY_SESSION).get(); session.read(request);
             Environment.getCommunication().getEventDispatcher().enqueue(session, request);
         }
 

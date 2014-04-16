@@ -52,6 +52,8 @@ public class CommunicationController extends ChannelInitializer<SocketChannel> i
         this.mEventDispatcher.destruct();
         this.mSessionController.destruct();
 
+        this.mPolicyDecoder = null;
+        this.mChannelHandler = null;
         this.mEventDispatcher = null;
         this.mTrackingHandler = null;
         this.mSessionController = null;

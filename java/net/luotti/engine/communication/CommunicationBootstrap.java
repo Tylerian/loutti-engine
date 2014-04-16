@@ -18,12 +18,11 @@ import net.luotti.engine.communication.sessions.SessionController;
 
 public class CommunicationBootstrap {
 
-    public static final byte BOSS_POOL_SIZE = 0x01;
-    public static final byte WORKER_POOL_SIZE = 0x04;
-
     private static int CHANNEL_MEMORY_BASE;
     private static int CHANNEL_MEMORY_LIMIT;
-    private static final String IF_ANYCAST = "0.0.0.0";
+
+    public static final byte BOSS_POOL_SIZE = 0x01;
+    public static final byte WORKER_POOL_SIZE = 0x04;
 
     static {
         CHANNEL_MEMORY_BASE = CommunicationController.CHANNEL_MEMORY_BASE;
@@ -69,7 +68,7 @@ public class CommunicationBootstrap {
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK , CHANNEL_MEMORY_BASE);
             CommunicationController.BOOTSTRAP.childOption(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, CHANNEL_MEMORY_LIMIT);
 
-            SessionController.CHANNELS.bind((Channel) CommunicationController.BOOTSTRAP.bind(IF_ANYCAST, Properties.NIO_GAME_PORT).sync());
+            SessionController.CHANNELS.bind(CommunicationController.BOOTSTRAP.bind(Properties.NIO_GAME_PORT).sync().channel());
         }
 
         catch (Exception ex) { return false; }  finally { return true; }

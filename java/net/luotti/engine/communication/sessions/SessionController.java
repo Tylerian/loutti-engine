@@ -26,7 +26,7 @@ public class SessionController implements Runnable, IDisposable {
     private Map<Channel, Session> mSessions;
 
     public static ChannelGroup CHANNELS;
-    private static final long SESSION_TIMEOUT = 30000;
+    private static final long SESSION_TIMEOUT = 0x7530l;
 
     static {
         SessionController.CHANNELS =  new ChannelGroup().construct(
@@ -80,7 +80,7 @@ public class SessionController implements Runnable, IDisposable {
         this.lJunk.clear();
 
         // Print out the amount of disposed sessions
-        Environment.getLogger().printOut(LogLevel.DEBUG, "SessionFactory disconnected " + amount + " timed out sessions successfully.");
+        Environment.getLogger().printOut(LogLevel.DEBUG, "SessionController disconnected " + amount + " timed out sessions successfully.");
     }
 
     @Override

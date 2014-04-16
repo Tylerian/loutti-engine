@@ -10,8 +10,8 @@ public class Properties {
     }
 
     // Longs
-    public static final long SESSION_CHECK_INTERVAL = 30000;
-    public static final long SCHEDULER_PURGATION_INTERVAL = 60000;
+    public static final long SESSION_CHECK_INTERVAL = 0x7530l;
+    public static final long SCHEDULER_PURGATION_INTERVAL = 0xea60l;
 
     // Bytes
     public static final byte DATABASE_POOL_SIZE = (byte) Environment.getProperties().getInt("sql.connections.average", 10);
