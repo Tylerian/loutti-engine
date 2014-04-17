@@ -10,8 +10,8 @@ import net.luotti.engine.communication.protocol.MessageRequest;
 import java.util.List;
 
 // @ChannelHandler.Sharable
-public class MessageRequestDecoder extends ByteToMessageDecoder
-{
+public class MessageRequestDecoder extends ByteToMessageDecoder {
+
     // (sizeof(Integer) + sizeof(Short)) - 1 = 0x05
     private static final byte REQUEST_MIN_SIZE = 0x05;
 

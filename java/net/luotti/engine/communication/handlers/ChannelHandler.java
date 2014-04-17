@@ -65,4 +65,10 @@ public class ChannelHandler extends ChannelInboundHandlerAdapter {
             Environment.getLogger().printOut(LogLevel.TRACE, "Took " + (pause - start) /  1000000.0D + "ms to enqueue the request.");
         }
     }
+
+    @Override
+     public void exceptionCaught(ChannelHandlerContext context, Throwable cause) throws Exception
+    {
+        Environment.getLogger().printOut(LogLevel.CRITICAL, "ChannelHandler has intercepted an Exception.", cause);
+    }
 }
