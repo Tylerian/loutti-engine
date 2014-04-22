@@ -1,7 +1,9 @@
 package net.luotti.engine.communication.protocol;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
+// import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.buffer.Unpooled;
+import io.netty.buffer.UnpooledByteBufAllocator;
 
 public class MessageResponse extends IMessage {
 
@@ -49,7 +51,7 @@ public class MessageResponse extends IMessage {
     // region #Constructors
     public MessageResponse(short OPCode)
     {
-        super(OPCode, PooledByteBufAllocator.DEFAULT.directBuffer(
+        super(OPCode, Unpooled.directBuffer(
             MessageResponse.PAYLOAD_SIZE_THRESHOLD
         ));
 
@@ -58,7 +60,7 @@ public class MessageResponse extends IMessage {
 
     public MessageResponse(short OPCode, int caliper)
     {
-        super(OPCode, PooledByteBufAllocator.DEFAULT.directBuffer(
+        super(OPCode, Unpooled.directBuffer(
             MessageResponse.PAYLOAD_SIZE_THRESHOLD + caliper - 0x100
         ));
 
